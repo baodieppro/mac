@@ -1050,11 +1050,11 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.pageStatusImage.hidden = YES;
         
-        if([[defaults objectForKey:@"currentSearchEngine"] isEqual: @"Google"]) {
+        if([[defaults objectForKey:@"currentSearchEngine"] isEqual: @"Onbibi"]) {
             
             // Google search initiated
             
-            NSLog(@"Search engine found: Google");
+            NSLog(@"Search engine found: Onbibi");
             
             searchString = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
             
