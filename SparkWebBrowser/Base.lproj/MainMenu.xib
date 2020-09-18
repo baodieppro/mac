@@ -94,7 +94,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Spark" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
-                            <menuItem title="About Spark" id="5kV-Vb-QxS">
+                            <menuItem title="About Onbibi" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="openAboutWindow:" target="Voe-Tx-rLC" id="qMD-QL-NB9"/>
@@ -765,13 +765,7 @@ Spark is made possible by the WebKit open source project and other open source s
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="ESd-DK-qb0">
                                                     <items>
-                                                        <menuItem title="Google" state="on" image="google-search-engine-icon" id="M4t-1k-gwL"/>
-                                                        <menuItem title="Bing" image="bing-search-engine-icon" id="iHg-JP-TzF"/>
-                                                        <menuItem title="Yahoo!" image="yahoo-search-engine-icon" id="RpJ-j3-k0A"/>
-                                                        <menuItem title="DuckDuckGo" image="duckduckgo-search-engine-icon" id="nq3-GM-uav"/>
-                                                        <menuItem title="AOL" image="aol-search-engine-icon" id="zAg-Ww-56y"/>
-                                                        <menuItem isSeparatorItem="YES" id="toF-XD-kdO"/>
-                                                        <menuItem title="Custom" id="jS2-St-NcO"/>
+                                                        <menuItem title="Onbibi" state="on" image="google-search-engine-icon" id="M4t-1k-gwL"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
