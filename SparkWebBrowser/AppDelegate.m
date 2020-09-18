@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  Spark
+//  onbibi
 //
 //  Copyright (c) 2014-2017 Insleep
 //  This code is distributed under the terms and conditions of the GNU license.
@@ -12,7 +12,7 @@
 #import "SPKBookmarkHandler.h"
 #import "WebKit/WebKit.h"
 #import "NSUserDefaults+ColorSupport.h"
-#import "Sparkle.framework/Headers/SUUpdater.h"
+#import "onbibile.framework/Headers/SUUpdater.h"
 
 @interface AppDelegate () <NSTabViewDelegate>
 
@@ -30,36 +30,36 @@ SPKHistoryTable *historyTable = nil;
 SPKBookmarkHandler *bookmarkHandler = nil;
 
 // Search engine query strings
-NSString *googleSearchString = @"https://www.google.com/search?q=%@";
-NSString *bingSearchString = @"https://www.bing.com/search?q=%@";
-NSString *yahooSearchString = @"https://search.yahoo.com/search?p=%@";
-NSString *duckDuckGoSearchString = @"https://www.duckduckgo.com/%@";
-NSString *aolSearchString = @"https://search.aol.com/aol/search?q=%@";
+NSString *googleSearchString = @"https://onbibi.com/search?q=%@";
+NSString *bingSearchString = @"https://onbibi.com/search?q=%@";
+NSString *yahooSearchString = @"https://onbibi.com/search?q=%@";
+NSString *duckDuckGoSearchString = @"https://onbibi.com/search?q=%@";
+NSString *aolSearchString = @"https://onbibi.com/search?q=%@";
 NSString *customSearchString = nil;
 
 // Search engine default homepages
-NSString *googleDefaultURL = @"https://www.google.com/";
-NSString *bingDefaultURL = @"https://www.bing.com/";
-NSString *yahooDefaultURL = @"https://www.yahoo.com/";
-NSString *duckDuckGoDefaultURL = @"https://www.duckduckgo.com/";
-NSString *aolDefaultURL = @"https://www.aol.com/";
+NSString *googleDefaultURL = @"https://onbibi.com/";
+NSString *bingDefaultURL = @"https://onbibi.com/";
+NSString *yahooDefaultURL = @"https://onbibi.com/";
+NSString *duckDuckGoDefaultURL = @"https://onbibi.com/";
+NSString *aolDefaultURL = @"https://onbibi.com/";
 
 // Strings for "Help" menu bar item
-NSString *appReportIssueURL = @"https://www.github.com/insleep/spark-web-browser/issues/new?title=Describe%20your%20feature%20request%20or%20bug%20report,%20succinctly&body=**Spark%20version:**%20%0A%20**Spark%20build:**%20%0A%20**Release%20channel:**%20%0A%20**macOS%20version:**%20%0A%0A%20**Description:**%20%0A%0A%20**Steps%20to%20reproduce:**%20%0A%0A%20**Expected%20results:**%20%0A%0A%20**Actual%20results:**%20";
-NSString *appExistingIssuesURL = @"https://www.github.com/insleep/spark-web-browser/issues/";
-NSString *appReleasesURL = @"https://www.github.com/insleep/spark-web-browser/releases/tag/%@/";
-NSString *appRoadmapURL = @"https://trello.com/b/TPd5oizl/spark-roadmap/";
+NSString *appReportIssueURL = @"https://onbibi.com/page/contact-us";
+NSString *appExistingIssuesURL = @"https://onbibi.com/page/contact-us";
+NSString *appReleasesURL = @"https://onbibi.com/";
+NSString *appRoadmapURL = @"https://onbibi.com/";
 
 // Strings related to page indicator
-NSString *secureSparkPageText = @"You are viewing a secure Spark page."; // Text shown when a secure Spark page is loaded
-NSString *secureSparkPageDetailText = @"Your information is private when it is sent to secure Spark pages."; // Detail text shown when a secure Spark page is loaded
+NSString *secureonbibiPageText = @"You are viewing a secure Onbibi page."; // Text shown when a secure onbibi page is loaded
+NSString *secureonbibiPageDetailText = @"Your information is private when it is sent to secure Onbibi pages."; // Detail text shown when a secure onbibi page is loaded
 NSString *secureHTTPSPageText = @"Your connection to this site is secure."; // Text shown when a secure site is loaded
 NSString *insecureHTTPSPageText = @"Your connection to this site is not secure."; // Text shown when an insecure site is loaded
 NSString *secureHTTPSPageDetailText = @"Your information (for example, passwords or credit card numbers) is private when it is sent to this site."; // Detail text shown when a secure site is loaded
 NSString *insecureHTTPSPageDetailText = @"You should not enter any sensitive information on this site (for example, passwords or credit cards)."; // Detail text shown when an insecure site is loaded
 
 // Miscellaneous strings
-NSString *betaOperatingSystemDisclaimerText = @"You are running a build of macOS 10.13 High Sierra that is not officially supported by Spark (%@). Please be aware that Spark may function improperly."; // Disclaimer shown when user is running a non-supported beta build of macOS 10.13
+NSString *betaOperatingSystemDisclaimerText = @"You are running a build of macOS 10.13 High Sierra that is not officially supported by onbibi (%@). Please be aware that Onbibi may function improperly."; // Disclaimer shown when user is running a non-supported beta build of macOS 10.13
 
 NSString *currentChromeVersion = @"59.0.3071.104"; // Used when setting user agent
 
@@ -78,7 +78,7 @@ NSData *customColorData = nil;
 
 // General app setup
 NSUserDefaults *defaults = nil; // Shortcut to [NSUserDefaults standardUserDefaults]
-NSDictionary *infoDict = nil; // Spark Info.plist
+NSDictionary *infoDict = nil; // onbibi Info.plist
 NSDictionary *sv = nil; // macOS SystemVersion.plist
 NSTask *task = nil; // NSTask used when switching release channels
 NSMutableArray *args = nil; // Arguments used when switching release channels
@@ -87,7 +87,7 @@ NSTrackingArea *forwardBtnTrackingArea = nil; // Forward button tracking area (u
 NSTrackingArea *reloadBtnTrackingArea = nil; // Reload button tracking area (used for hover effect)
 NSTrackingArea *settingsBtnTrackingArea = nil; // Settings button tracking area (used for hover effect)
 NSTrackingArea *homeBtnTrackingArea = nil; // Home button tracking area (used for hover effect)
-NSTrackingArea *sparkSecurePageViewTrackingArea = nil; // Secure page image tracking area (used to show custom view)
+NSTrackingArea *onbibiSecurePageViewTrackingArea = nil; // Secure page image tracking area (used to show custom view)
 NSMutableArray *currentBookmarksArray = nil; // Mutable array for bookmark URLs
 NSMutableArray *currentBookmarkTitlesArray = nil; // Mutable array for bookmark titles
 NSMutableArray *currentBookmarkIconsArray = nil; // Mutable array for bookmark icons
@@ -97,15 +97,15 @@ long long expectedLength = 0; // Expected length of a file being downloaded
 bool downloadOverride = NO; // Boolean for whether or not to download a file even if WebView can display it
 
 // Mutable strings
-NSString *appVersionString = nil; // Spark version number
-NSString *appBuildString = nil; // Spark build number
+NSString *appVersionString = nil; // onbibi version number
+NSString *appBuildString = nil; // onbibi build number
 NSString *operatingSystemVersionString = nil; // macOS version number
 NSString *operatingSystemBuildString = nil; // macOS build number
 NSString *macOSProductName = nil; // macOS product name
 NSString *customMacOSProductName = nil; // Edited macOS product name
-NSString *releaseChannel = nil; // Spark release channel
+NSString *releaseChannel = nil; // onbibi release channel
 NSString *editedVersionString = nil; // Edited macOS version string
-NSString *userAgent = nil; // Spark user agent, used when loading webpages
+NSString *userAgent = nil; // onbibi user agent, used when loading webpages
 NSString *clippedTitle = nil; // Title used within the titleStatus string
 NSString *suggestedFilename = nil; // Filename suggested when downloading files
 NSString *clippedFilename = nil; // Suggested filename with ellipsis suffix
@@ -122,14 +122,14 @@ NSString *searchString = nil; // String used when initiating a search query
 NSString *homepageString = nil; // Current homepage chosen
 NSString *urlString = nil; // Initial string to load a webpage from
 NSString *editedURLString = nil; // Edited string to load a webpage from
-NSString *capitalizedReleaseChannel = nil; // Spark release channel, including capital letters
-NSString *uncapitalizedReleaseChannel = nil; // Spark release channel, not including capital letters
+NSString *capitalizedReleaseChannel = nil; // onbibi release channel, including capital letters
+NSString *uncapitalizedReleaseChannel = nil; // onbibi release channel, not including capital letters
 NSString *searchEngineChosen = nil; // Current search engine chosen
 NSString *colorChosen = nil; // Current theme color stored in NSUserDefaults
-NSString *urlToString = nil; // NSURL converted to a NSString, used when handling spark:// URL events
+NSString *urlToString = nil; // NSURL converted to a NSString, used when handling onbibi:// URL events
 NSString *websiteURL = nil; // Current website URL
 NSString *faviconURLString = nil; // URL for the service that retrieves favicons
-NSURL *eventURL = nil; // Used when handling spark:// URL events
+NSURL *eventURL = nil; // Used when handling onbibi:// URL events
 NSURL *faviconURL = nil; // NSURL converted from faviconURLString
 NSURL *candidateURL = nil; // String value of addressBar as an NSURL
 NSData *faviconData = nil; // Data retrieved from faviconURLString service
@@ -187,7 +187,7 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
     
     releaseChannel = [NSString stringWithFormat:@"%@", [defaults objectForKey:@"currentReleaseChannel"]]; // Get current release channel
     editedVersionString = [operatingSystemVersionString stringByReplacingOccurrencesOfString:@"." withString:@"_"]; // Replace dots in version string with underscores
-    userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (Macintosh; Intel %@ %@) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%@ Safari/537.36 Spark/%@.%@", macOSProductName, editedVersionString, currentChromeVersion, appVersionString, appBuildString]; // Set user agent respective to the current versions of Spark and macOS
+    userAgent = [NSString stringWithFormat:@"Mozilla/5.0 (Macintosh; Intel %@ %@) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%@ Safari/537.36 onbibi/%@.%@", macOSProductName, editedVersionString, currentChromeVersion, appVersionString, appBuildString]; // Set user agent respective to the current versions of onbibi and macOS
     
     untrustedSites = [NSMutableArray array]; // Set up untrusted sites array
 }
@@ -363,15 +363,15 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         NSLog(@"Resetting release channel to \"nightly\"");
         
         [defaults setObject:@"nightly" forKey:@"currentReleaseChannel"];
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://insleep.tech/spark/appcast-dev.xml"]];
+        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://onbibi.com/"]];
     }
     
     if([[defaults objectForKey:@"currentReleaseChannel"] isEqual: @"stable"]) {
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://insleep.tech/spark/appcast.xml"]];
+        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://onbibi.com/"]];
     } else if([[defaults objectForKey:@"currentReleaseChannel"] isEqual: @"beta"]) {
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://insleep.tech/spark/appcast-beta.xml"]];
+        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://onbibi.com/"]];
     } else if([[defaults objectForKey:@"currentReleaseChannel"] isEqual: @"nightly"]) {
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://insleep.tech/spark/appcast-dev.xml"]];
+        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:@"https://onbibi.com/"]];
     }
     
     self.faviconImage.hidden = YES;
@@ -421,14 +421,14 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
     reloadBtnTrackingArea = [[NSTrackingArea alloc] initWithRect:[self.reloadBtn bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
     homeBtnTrackingArea = [[NSTrackingArea alloc] initWithRect:[self.homeBtn bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
     settingsBtnTrackingArea = [[NSTrackingArea alloc] initWithRect:[self.settingsBtn bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
-    sparkSecurePageViewTrackingArea = [[NSTrackingArea alloc] initWithRect:[self.pageStatusImage bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
+    onbibiSecurePageViewTrackingArea = [[NSTrackingArea alloc] initWithRect:[self.pageStatusImage bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
     
     [self.backBtn addTrackingArea:backBtnTrackingArea];
     [self.forwardBtn addTrackingArea:forwardBtnTrackingArea];
     [self.reloadBtn addTrackingArea:reloadBtnTrackingArea];
     [self.homeBtn addTrackingArea:homeBtnTrackingArea];
     [self.settingsBtn addTrackingArea:settingsBtnTrackingArea];
-    [self.pageStatusImage addTrackingArea:sparkSecurePageViewTrackingArea];
+    [self.pageStatusImage addTrackingArea:onbibiSecurePageViewTrackingArea];
     
     // Check whether or not a custom search engine is in use
     if([[defaults objectForKey:@"customSearchEngine"] isEqual: @""]) {
@@ -685,25 +685,25 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
 - (IBAction)useAboutPage:(id)sender {
     
     if(self.useAboutPageBtn.state == NSOnState) {
-        NSLog(@"Now using spark://about webpage.");
+        NSLog(@"Now using onbibi://about webpage.");
         
-        [defaults setBool:YES forKey:@"useSparkAboutPage"];
+        [defaults setBool:YES forKey:@"useonbibiAboutPage"];
     } else {
-        NSLog(@"Now using Spark About window.");
+        NSLog(@"Now using onbibi About window.");
         
-        [defaults setBool:NO forKey:@"useSparkAboutPage"];
+        [defaults setBool:NO forKey:@"useonbibiAboutPage"];
     }
 }
 
 - (IBAction)openAboutWindow:(id)sender {
     
-    if([defaults boolForKey:@"useSparkAboutPage"] == YES) {
+    if([defaults boolForKey:@"useonbibiAboutPage"] == YES) {
         
-        NSLog(@"Loading spark-about.html...");
+        NSLog(@"Loading onbibi-about.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-about" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-about" ofType:@"html"] isDirectory:NO]]];
         
-        self.addressBar.stringValue = @"spark://about";
+        self.addressBar.stringValue = @"onbibi://about";
         
     } else {
         NSLog(@"Opening About window...");
@@ -1037,9 +1037,9 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         [self handleFilePrefix];
         
-    } else if([searchString hasPrefix:@"spark://"]) {
-        // spark:// prefix
-        NSLog(@"spark:// prefix");
+    } else if([searchString hasPrefix:@"onbibi://"]) {
+        // onbibi:// prefix
+        NSLog(@"onbibi:// prefix");
         
         [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:candidateURL]];
         self.addressBar.stringValue = [NSString stringWithFormat:@"%@", searchString];
@@ -1154,7 +1154,7 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
     [defaults setInteger:self.releaseChannelPicker.indexOfSelectedItem forKey:@"releaseChannelIndex"];
     
     self.popupWindowTitle.stringValue = @"Set Release Channel and Restart?";
-    self.popupWindowText.stringValue = [NSString stringWithFormat:@"Spark release channel will be set to: %@.\n\nA browser restart is required for this to take effect.", uncapitalizedReleaseChannel];
+    self.popupWindowText.stringValue = [NSString stringWithFormat:@"onbibi release channel will be set to: %@.\n\nA browser restart is required for this to take effect.", uncapitalizedReleaseChannel];
     self.popupWindowBtn1.title = @"Set Release Channel";
     self.popupWindowBtn2.title = @"Restart Later";
     self.popupWindowBtn1.action = @selector(setReleaseChannelBtnClicked:);
@@ -1206,7 +1206,7 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         self.ntNotSupported.textColor = [NSColor whiteColor];
     }
     
-    // No support for tabs in Spark -- display a label
+    // No support for tabs in onbibi -- display a label
     self.ntNotSupported.hidden = NO;
     
     // Timer to display the label for 2 seconds
@@ -1234,8 +1234,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
 
 - (void)checkExperimentalConfig {
     
-    // Check if checkbox should be checked (spark://config - "Use spark://about webpage")
-    if([defaults boolForKey:@"useSparkAboutPage"] == YES) {
+    // Check if checkbox should be checked (onbibi://config - "Use onbibi://about webpage")
+    if([defaults boolForKey:@"useonbibiAboutPage"] == YES) {
         self.useAboutPageBtn.state = NSOnState;
     } else {
         self.useAboutPageBtn.state = NSOffState;
@@ -1310,7 +1310,7 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
 
 - (void)setHomepageWithString:(NSString *)homepageToSet {
     
-    if([homepageToSet hasPrefix:@"https://"] || [homepageToSet hasPrefix:@"http://"] || [homepageToSet hasPrefix:@"file://"] || [homepageToSet hasPrefix:@"spark://"]) { // Valid address
+    if([homepageToSet hasPrefix:@"https://"] || [homepageToSet hasPrefix:@"http://"] || [homepageToSet hasPrefix:@"file://"] || [homepageToSet hasPrefix:@"onbibi://"]) { // Valid address
         NSLog(@"Setting homepage...");
         [defaults setObject:[NSString stringWithFormat:@"%@", homepageToSet] forKey:@"userHomepage"];
         self.homepageTextField.stringValue = [defaults objectForKey:@"userHomepage"];
@@ -1345,21 +1345,21 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
 #pragma mark - URL event handling
 
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
-    // Handle spark:// URL events
+    // Handle onbibi:// URL events
     
     eventURL = [NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]];
     urlToString = [eventURL absoluteString];
     
-    if([urlToString isEqual: @"spark://about"] || [urlToString isEqual: @"spark://spark"]) {
-        // spark://about || spark://spark called
+    if([urlToString isEqual: @"onbibi://about"] || [urlToString isEqual: @"onbibi://onbibi"]) {
+        // onbibi://about || onbibi://onbibi called
         
-        if([defaults boolForKey:@"useSparkAboutPage"] == YES) {
+        if([defaults boolForKey:@"useonbibiAboutPage"] == YES) {
             
-            NSLog(@"%@ called. Loading spark-about.html...", urlToString);
+            NSLog(@"%@ called. Loading onbibi-about.html...", urlToString);
             
-            [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-about" ofType:@"html"] isDirectory:NO]]];
+            [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-about" ofType:@"html"] isDirectory:NO]]];
             
-            self.addressBar.stringValue = @"spark://about";
+            self.addressBar.stringValue = @"onbibi://about";
             
         } else {
             NSLog(@"%@ called. Opening About window...", urlToString);
@@ -1369,26 +1369,26 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
             [NSApp activateIgnoringOtherApps:YES];
         }
         
-    } else if([urlToString isEqual: @"spark://about/force-page"]) {
-        // spark://about/force-page called
+    } else if([urlToString isEqual: @"onbibi://about/force-page"]) {
+        // onbibi://about/force-page called
         
-        NSLog(@"%@ called. Loading spark-about.html...", urlToString);
+        NSLog(@"%@ called. Loading onbibi-about.html...", urlToString);
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-about" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-about" ofType:@"html"] isDirectory:NO]]];
         
-        self.addressBar.stringValue = @"spark://about/force-page";
+        self.addressBar.stringValue = @"onbibi://about/force-page";
         
-    } else if([urlToString isEqual: @"spark://version"] || [urlToString isEqual:@"spark://currentversion"]) {
-        // spark://version || spark://currentversion called
+    } else if([urlToString isEqual: @"onbibi://version"] || [urlToString isEqual:@"onbibi://currentversion"]) {
+        // onbibi://version || onbibi://currentversion called
         
-        NSLog(@"%@ called. Loading spark-version.html...", urlToString);
+        NSLog(@"%@ called. Loading onbibi-version.html...", urlToString);
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-version" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-version" ofType:@"html"] isDirectory:NO]]];
         
-        self.addressBar.stringValue = @"spark://version";
+        self.addressBar.stringValue = @"onbibi://version";
         
-    } else if([urlToString isEqual: @"spark://prefs"] || [urlToString isEqual: @"spark://preferences"] || [urlToString isEqual: @"spark://settings"]) {
-        // spark://prefs || spark://preferences || spark://settings called
+    } else if([urlToString isEqual: @"onbibi://prefs"] || [urlToString isEqual: @"onbibi://preferences"] || [urlToString isEqual: @"onbibi://settings"]) {
+        // onbibi://prefs || onbibi://preferences || onbibi://settings called
         
         NSLog(@"%@ called. Opening Preferences window...", urlToString);
         
@@ -1398,8 +1398,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://config"]) {
-        // spark://config called
+    } else if([urlToString isEqual: @"onbibi://config"]) {
+        // onbibi://config called
         
         NSLog(@"%@ called. Opening Configuration window...", urlToString);
         
@@ -1409,8 +1409,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://history"] || [urlToString isEqual:@"spark://viewhistory"]) {
-        // spark://history || spark://viewhistory called
+    } else if([urlToString isEqual: @"onbibi://history"] || [urlToString isEqual:@"onbibi://viewhistory"]) {
+        // onbibi://history || onbibi://viewhistory called
         
         NSLog(@"%@ called. Opening History window...", urlToString);
         
@@ -1420,15 +1420,15 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://quit"] || [urlToString isEqual: @"spark://close"] || [urlToString isEqual: @"spark://end"] || [urlToString isEqual: @"spark://endsession"] || [urlToString isEqual: @"spark://closesession"] || [urlToString isEqual: @"spark://terminate"]) {
-        // spark://quit || spark://close || spark://end  || spark://endsession || spark://closesession || spark://terminate called
+    } else if([urlToString isEqual: @"onbibi://quit"] || [urlToString isEqual: @"onbibi://close"] || [urlToString isEqual: @"onbibi://end"] || [urlToString isEqual: @"onbibi://endsession"] || [urlToString isEqual: @"onbibi://closesession"] || [urlToString isEqual: @"onbibi://terminate"]) {
+        // onbibi://quit || onbibi://close || onbibi://end  || onbibi://endsession || onbibi://closesession || onbibi://terminate called
         
         NSLog(@"%@ called. Quitting...", urlToString);
         
         [[NSApplication sharedApplication] terminate:nil];
         
-    } else if([urlToString isEqual: @"spark://restart"] || [urlToString isEqual: @"spark://reboot"]) {
-        // spark://restart || spark://reboot called
+    } else if([urlToString isEqual: @"onbibi://restart"] || [urlToString isEqual: @"onbibi://reboot"]) {
+        // onbibi://restart || onbibi://reboot called
         
         NSLog(@"%@ called. Restarting...", urlToString);
         
@@ -1442,8 +1442,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         [[NSApplication sharedApplication] terminate:nil];
         
-    } else if([urlToString isEqual: @"spark://refresh"] || [urlToString isEqual: @"spark://reload"]) {
-        // spark://refresh || spark://reload called
+    } else if([urlToString isEqual: @"onbibi://refresh"] || [urlToString isEqual: @"onbibi://reload"]) {
+        // onbibi://refresh || onbibi://reload called
         
         NSLog(@"%@ called. Refreshing webpage...", urlToString);
         
@@ -1451,8 +1451,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://back"] || [urlToString isEqual: @"spark://goback"] || [urlToString isEqual: @"spark://previouspage"]) {
-        // spark://back || spark://goback || spark://previouspage called
+    } else if([urlToString isEqual: @"onbibi://back"] || [urlToString isEqual: @"onbibi://goback"] || [urlToString isEqual: @"onbibi://previouspage"]) {
+        // onbibi://back || onbibi://goback || onbibi://previouspage called
         
         NSLog(@"%@ called. Loading...", urlToString);
         
@@ -1460,8 +1460,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://forward"] || [urlToString isEqual: @"spark://goforward"] || [urlToString isEqual: @"spark://nextpage"]) {
-        // spark://forward || spark://goforward || spark://nextpage called
+    } else if([urlToString isEqual: @"onbibi://forward"] || [urlToString isEqual: @"onbibi://goforward"] || [urlToString isEqual: @"onbibi://nextpage"]) {
+        // onbibi://forward || onbibi://goforward || onbibi://nextpage called
         
         NSLog(@"%@ called. Loading...", urlToString);
         
@@ -1469,8 +1469,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://newtab"] || [urlToString isEqual: @"spark://addtab"]) {
-        // spark://newtab || spark://addtab called
+    } else if([urlToString isEqual: @"onbibi://newtab"] || [urlToString isEqual: @"onbibi://addtab"]) {
+        // onbibi://newtab || onbibi://addtab called
         
         NSLog(@"%@ called. Loading...", urlToString);
         
@@ -1478,54 +1478,54 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         self.addressBar.stringValue = self.webView.mainFrameURL;
         
-    } else if([urlToString isEqual: @"spark://urls"] || [urlToString isEqual: @"spark://spark-urls"]) {
-        // spark://urls || spark://spark-urls called
+    } else if([urlToString isEqual: @"onbibi://urls"] || [urlToString isEqual: @"onbibi://onbibi-urls"]) {
+        // onbibi://urls || onbibi://onbibi-urls called
         
-        NSLog(@"%@ called. Loading spark-urls.html...", urlToString);
+        NSLog(@"%@ called. Loading onbibi-urls.html...", urlToString);
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-urls" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-urls" ofType:@"html"] isDirectory:NO]]];
         
-        self.addressBar.stringValue = @"spark://urls";
+        self.addressBar.stringValue = @"onbibi://urls";
         
-    } else if([urlToString isEqual: @"spark://checkforupdates"] || [urlToString isEqual: @"spark://update"] || [urlToString isEqual:@"spark://updates"]) {
-        // spark://checkforupdates || spark://update || spark://updates called
+    } else if([urlToString isEqual: @"onbibi://checkforupdates"] || [urlToString isEqual: @"onbibi://update"] || [urlToString isEqual:@"onbibi://updates"]) {
+        // onbibi://checkforupdates || onbibi://update || onbibi://updates called
         
         NSLog(@"%@ called. Checking for updates...", urlToString);
         
         [[SUUpdater sharedUpdater] checkForUpdates:nil];
         
-    } else if([urlToString isEqual: @"spark://reportissue"] || [urlToString isEqual: @"spark://reportanissue"] || [urlToString isEqual: @"spark://issue"]) {
-        // spark://reportissue || spark://reportanissue || spark://issue
+    } else if([urlToString isEqual: @"onbibi://reportissue"] || [urlToString isEqual: @"onbibi://reportanissue"] || [urlToString isEqual: @"onbibi://issue"]) {
+        // onbibi://reportissue || onbibi://reportanissue || onbibi://issue
         
         NSLog(@"%@ called. Loading issues page...", urlToString);
         
         [self reportIssue:nil];
         
-    } else if([urlToString isEqual: @"spark://issues"]) {
-        // spark://issues called
+    } else if([urlToString isEqual: @"onbibi://issues"]) {
+        // onbibi://issues called
         
         NSLog(@"%@ called. Loading issues page...", urlToString);
         
         [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:appExistingIssuesURL]]];
         self.addressBar.stringValue = appExistingIssuesURL;
         
-    } else if([urlToString isEqual: @"spark://releasenotes"]) {
-        // spark://releasenotes called
+    } else if([urlToString isEqual: @"onbibi://releasenotes"]) {
+        // onbibi://releasenotes called
         
         NSLog(@"%@ called. Loading release notes...", urlToString);
         
         [self viewReleaseNotes:nil];
         
-    } else if([urlToString isEqual: @"spark://lastsession"]) {
-        // spark://lastsession called
+    } else if([urlToString isEqual: @"onbibi://lastsession"]) {
+        // onbibi://lastsession called
         
         NSLog(@"%@ called. Loading last session...", urlToString);
         
         [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[defaults objectForKey:@"lastSession"]]]];
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
         
-    } else if([urlToString isEqual: @"spark://invalidcert-proceedanyway"]) {
-        // spark://invalidcert-proceedanyway called
+    } else if([urlToString isEqual: @"onbibi://invalidcert-proceedanyway"]) {
+        // onbibi://invalidcert-proceedanyway called
         
         NSLog(@"%@ called. Loading last session...", urlToString);
         
@@ -1540,12 +1540,12 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         
         [urlConnection start];
         
-    } else if([urlToString hasPrefix: @"spark://"] || [urlToString hasPrefix: @"spark:"]) {
-        // Invalid spark:// URL
+    } else if([urlToString hasPrefix: @"onbibi://"] || [urlToString hasPrefix: @"onbibi:"]) {
+        // Invalid onbibi:// URL
         
-        NSLog(@"Error: invalid spark:// URL: %@. Loading spark-invalid-url.html...", urlToString);
+        NSLog(@"Error: invalid onbibi:// URL: %@. Loading onbibi-invalid-url.html...", urlToString);
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-invalid-url" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-invalid-url" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = searchString;
         
@@ -1566,8 +1566,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         [[self.homeBtn cell] setBackgroundColor:[NSColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f]];
     } else if([[theEvent trackingArea] isEqual:settingsBtnTrackingArea]) {
         [[self.settingsBtn cell] setBackgroundColor:[NSColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f]];
-    } else if([[theEvent trackingArea] isEqual:sparkSecurePageViewTrackingArea]) {
-        self.sparkSecurePageView.hidden = NO;
+    } else if([[theEvent trackingArea] isEqual:onbibiSecurePageViewTrackingArea]) {
+        self.onbibiSecurePageView.hidden = NO;
         self.titleStatus.toolTip = @"";
     }
 }
@@ -1585,8 +1585,8 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         [[self.homeBtn cell] setBackgroundColor:[NSColor whiteColor]];
     } else if([[theEvent trackingArea] isEqual:settingsBtnTrackingArea]) {
         [[self.settingsBtn cell] setBackgroundColor:[NSColor whiteColor]];
-    } else if([[theEvent trackingArea] isEqual:sparkSecurePageViewTrackingArea]) {
-        self.sparkSecurePageView.hidden = YES;
+    } else if([[theEvent trackingArea] isEqual:onbibiSecurePageViewTrackingArea]) {
+        self.onbibiSecurePageView.hidden = YES;
     }
 }
 
@@ -1765,11 +1765,11 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         // NSURLErrorServerCertificateHasBadDate = -1201
         // NSURLErrorSecureConnectionFailed = -1200
         
-        NSLog(@"Loading spark-cert-invalid.html...");
+        NSLog(@"Loading onbibi-cert-invalid.html...");
         
         [self.addressBar setTextColor:[NSColor redColor]];
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-cert-invalid" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-cert-invalid" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
         
@@ -1779,52 +1779,52 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         // Show page status image + view
         self.pageStatusImage.hidden = NO;
         self.pageStatusImage.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
-        self.sparkSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
-        self.sparkSecurePageText.stringValue = insecureHTTPSPageText;
-        self.sparkSecurePageText.textColor = [NSColor colorWithRed:0.88 green:0.23 blue:0.19 alpha:1.0];
-        self.sparkSecurePageDetailText.stringValue = insecureHTTPSPageDetailText;
+        self.onbibiSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
+        self.onbibiSecurePageText.stringValue = insecureHTTPSPageText;
+        self.onbibiSecurePageText.textColor = [NSColor colorWithRed:0.88 green:0.23 blue:0.19 alpha:1.0];
+        self.onbibiSecurePageDetailText.stringValue = insecureHTTPSPageDetailText;
         
     } else if(error.code == -1003) {
         // NSURLErrorCannotFindHost
         
-        NSLog(@"Loading spark-dns-failed.html...");
+        NSLog(@"Loading onbibi-dns-failed.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-dns-failed" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-dns-failed" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
         
     } else if(error.code == -1004) {
         // NSURLErrorCannotConnectToHost
         
-        NSLog(@"Loading spark-connection-fail.html...");
+        NSLog(@"Loading onbibi-connection-fail.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-connection-fail" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-connection-fail" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
         
     } else if(error.code == -1009) {
         // NSURLErrorNotConnectedToInternet
         
-        NSLog(@"Loading spark-disconnected.html...");
+        NSLog(@"Loading onbibi-disconnected.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-disconnected" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-disconnected" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
         
     } else if(error.code == -1007) {
         // NSURLErrorHTTPTooManyRedirects
         
-        NSLog(@"Loading spark-redirect-loop.html...");
+        NSLog(@"Loading onbibi-redirect-loop.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-redirect-loop" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-redirect-loop" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
     } else if(error.code == -1006) {
         // NSURLErrorDNSLookupFailed
         
-        NSLog(@"Loading spark-dns-failed.html...");
+        NSLog(@"Loading onbibi-dns-failed.html...");
         
-        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"spark-dns-failed" ofType:@"html"] isDirectory:NO]]];
+        [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]                                                                           pathForResource:@"onbibi-dns-failed" ofType:@"html"] isDirectory:NO]]];
         
         self.addressBar.stringValue = [defaults objectForKey:@"lastSession"];
     }
@@ -1888,7 +1888,7 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
         self.loadingIndicator.hidden = YES;
         self.faviconImage.hidden = NO;
         
-        if([self.addressBar.stringValue hasPrefix: @"spark:"]) { // Check whether or not a spark: page is being loaded
+        if([self.addressBar.stringValue hasPrefix: @"onbibi:"]) { // Check whether or not a onbibi: page is being loaded
             self.faviconImage.image = [NSImage imageNamed:@"favicon.ico"];
         }
         
@@ -1901,17 +1901,17 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
             // In the future, we should probably figure out a way to detect if the site is actually using HTTPS. For now, we'll just do a string check.
             self.pageStatusImage.hidden = NO;
             self.pageStatusImage.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
-            self.sparkSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
-            self.sparkSecurePageText.stringValue = secureHTTPSPageText;
-            self.sparkSecurePageText.textColor = [NSColor colorWithRed:0.29 green:0.60 blue:0.44 alpha:1.0];
-            self.sparkSecurePageDetailText.stringValue = secureHTTPSPageDetailText;
-        } else if([self.addressBar.stringValue hasPrefix:@"spark://"] && [defaults boolForKey:@"insecureHTTPSOverride"] != YES) {
+            self.onbibiSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+            self.onbibiSecurePageText.stringValue = secureHTTPSPageText;
+            self.onbibiSecurePageText.textColor = [NSColor colorWithRed:0.29 green:0.60 blue:0.44 alpha:1.0];
+            self.onbibiSecurePageDetailText.stringValue = secureHTTPSPageDetailText;
+        } else if([self.addressBar.stringValue hasPrefix:@"onbibi://"] && [defaults boolForKey:@"insecureHTTPSOverride"] != YES) {
             self.pageStatusImage.hidden = NO;
             self.pageStatusImage.image = [NSImage imageNamed:NSImageNameMenuOnStateTemplate];
-            self.sparkSecurePageIcon.image = [NSImage imageNamed:@"SparkIcon256"];
-            self.sparkSecurePageText.stringValue = secureSparkPageText;
-            self.sparkSecurePageText.textColor = [NSColor blackColor];
-            self.sparkSecurePageDetailText.stringValue = secureSparkPageDetailText;
+            self.onbibiSecurePageIcon.image = [NSImage imageNamed:@"onbibiIcon256"];
+            self.onbibiSecurePageText.stringValue = secureonbibiPageText;
+            self.onbibiSecurePageText.textColor = [NSColor blackColor];
+            self.onbibiSecurePageDetailText.stringValue = secureonbibiPageDetailText;
         } else if([self.addressBar.stringValue hasPrefix:@"http://"] || [self.addressBar.stringValue hasPrefix:@"file://"]) {
             self.pageStatusImage.hidden = YES;
         }
@@ -1922,10 +1922,10 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
             // Show page status image + view
             self.pageStatusImage.hidden = NO;
             self.pageStatusImage.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
-            self.sparkSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
-            self.sparkSecurePageText.stringValue = insecureHTTPSPageText;
-            self.sparkSecurePageText.textColor = [NSColor colorWithRed:0.88 green:0.23 blue:0.19 alpha:1.0];
-            self.sparkSecurePageDetailText.stringValue = insecureHTTPSPageDetailText;
+            self.onbibiSecurePageIcon.image = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
+            self.onbibiSecurePageText.stringValue = insecureHTTPSPageText;
+            self.onbibiSecurePageText.textColor = [NSColor colorWithRed:0.88 green:0.23 blue:0.19 alpha:1.0];
+            self.onbibiSecurePageDetailText.stringValue = insecureHTTPSPageDetailText;
         } else {
             [self.addressBar setTextColor:[NSColor blackColor]];
         }
@@ -1936,24 +1936,24 @@ NSMutableArray *untrustedSites = nil; // Array of untrusted websites
             NSLog(@"Successfully reset insecureHTTPSOverride key.");
         }
         
-        // Set values for use on spark:// pages
+        // Set values for use on onbibi:// pages
         
         // Shared resources
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-currentVersion').innerHTML = '%@';", appVersionString]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-currentBuild').innerHTML = '%@';", appBuildString]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-currentReleaseChannel').innerHTML = '%@';", releaseChannel]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-userAgent').innerHTML = '%@';", userAgent]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-webpageRequested').innerHTML = '%@';", lastSession]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-currentVersion').innerHTML = '%@';", appVersionString]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-currentBuild').innerHTML = '%@';", appBuildString]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-currentReleaseChannel').innerHTML = '%@';", releaseChannel]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-userAgent').innerHTML = '%@';", userAgent]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-webpageRequested').innerHTML = '%@';", lastSession]];
         
-        // spark://version resources
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-operatingSystemName').innerHTML = '%@';", customMacOSProductName]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-operatingSystemVersion').innerHTML = '%@';", operatingSystemVersionString]];
-        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-operatingSystemBuild').innerHTML = '%@';", operatingSystemBuildString]];
+        // onbibi://version resources
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-operatingSystemName').innerHTML = '%@';", customMacOSProductName]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-operatingSystemVersion').innerHTML = '%@';", operatingSystemVersionString]];
+        [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-operatingSystemBuild').innerHTML = '%@';", operatingSystemBuildString]];
         
-        // Commented this out as of v3.0.5 (sunset update) so that Spark is fully functional on 10.13. This block used to check whether or not a user was on 10.13 and display a disclaimer accordingly.
+        // Commented this out as of v3.0.5 (sunset update) so that onbibi is fully functional on 10.13. This block used to check whether or not a user was on 10.13 and display a disclaimer accordingly.
         /*if([[NSProcessInfo processInfo] operatingSystemVersion].minorVersion == 13 && ![operatingSystemBuildString isEqual: @"17A264c"]) { // Check whether or not user is running macOS 10.13 or later
             // Beta operating system disclaimer
-            [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('sparkWebBrowser-operatingSystemBetaDisclaimer').innerHTML = '<p class=\"about-betadisclaimer\"><span class=\"about-betadisclaimer-warning\">WARNING: </span>%@</p>';", [NSString stringWithFormat:betaOperatingSystemDisclaimerText, operatingSystemBuildString]]];
+            [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('onbibiWebBrowser-operatingSystemBetaDisclaimer').innerHTML = '<p class=\"about-betadisclaimer\"><span class=\"about-betadisclaimer-warning\">WARNING: </span>%@</p>';", [NSString stringWithFormat:betaOperatingSystemDisclaimerText, operatingSystemBuildString]]];
         }*/
     }
 }
